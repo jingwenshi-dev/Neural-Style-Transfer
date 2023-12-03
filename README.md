@@ -33,8 +33,11 @@ Neural Style Transfer (NST) is an algorithm that alters digital images or videos
     ```
 
 #### Example Images
-- **Style Image:** ![Style Image](fangao.jpeg)
-- **Content Image:** ![Content Image](img3.jpeg)
-- **Final Output:** ![Final Output](new_output.jpg)
+- **Style Image:** 
+<img src="images/fangao.jpeg" alt="Style Image" width="500"/>
+- **Content Image:** 
+<img src="images/img3.jpeg" alt="Content Image" width="500"/>
+- **Final Output:** 
+<img src="images/new_output.jpg" alt="Output Image" width="500"/>
 
 Feel free to use this NST implementation to explore diverse artistic styles and generate captivating visual outputs.

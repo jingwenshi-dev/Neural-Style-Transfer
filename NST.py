@@ -228,8 +228,8 @@ def start_NST(vgg19, optimizer, content_img, style_img, input_img,
 vgg19 = models.vgg19(weights=VGG19_Weights.DEFAULT).features.eval()
 
 # Load images and check image sizes
-style_img, content_img = image_loader(style_path="./fangao.jpeg",
-                                      content_path="./img3.jpeg")
+style_img, content_img = image_loader(style_path="images/fangao.jpeg",
+                                      content_path="images/img3.jpeg")
 input_img = content_img.clone()
 
 assert style_img.size() == content_img.size()
