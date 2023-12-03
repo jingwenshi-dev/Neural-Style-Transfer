@@ -164,7 +164,7 @@ def get_model_styleLoss_contentLosses(vgg19,
     return model, style_losses, content_losses
 
 
-def start_NST(vgg19, optimizer, content_img, style_img, input_img,
+def start_NST(optimizer, content_img, style_img, input_img, vgg19=vgg19,
               num_steps=300, style_weight=1000000, content_weight=1,
               learning_rate=0.01, momentum=0.9, weight_decay=0.0001, steps=10):
 
@@ -253,7 +253,7 @@ if __name__ == "__main__":
     image_display(content_img, title='Content Image')
 
     # Start training
-    output = start_NST(vgg19, optimizer="lbfgs", content_img=content_img,
+    output = start_NST(optimizer="lbfgs", content_img=content_img,
                        style_img=style_img, input_img=input_img, num_steps=300,
                        style_weight=1000000)
 
