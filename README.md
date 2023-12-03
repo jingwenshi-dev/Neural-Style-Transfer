@@ -3,7 +3,11 @@
 #### What is Neural Style Transfer?
 
 Neural Style Transfer (NST) is an algorithm that alters digital images or videos, enabling them to mimic the appearance or visual style of another image. Leveraging deep neural networks, these algorithms transform images. NST finds various applications in creating artificial artwork from photos, such as applying the style of renowned paintings to user-provided images. Artists and designers globally use this technique to craft innovative artwork inspired by diverse styles.
+#### How does it work?
 
+For a clear sense of how does the code run, see [NST.ipynb](NST.ipynb) for the Jupyter Notebook.
+
+To use NST, follow the following steps:
 #### Usage
 0. **Setup**
     ```python
