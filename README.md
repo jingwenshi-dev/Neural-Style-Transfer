@@ -23,7 +23,7 @@ Neural Style Transfer (NST) is an algorithm that alters digital images or videos
                        style_weight=1000000)
     ```
 
-3. **Display Output:**
+3. **Display & Save Output:**
     ```python
     import matplotlib.pyplot as plt
     
