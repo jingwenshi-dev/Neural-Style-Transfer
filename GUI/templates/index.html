@@ -79,7 +79,10 @@
     <input type="file" name="content_image" id="content_image" required><br><br>
     <label for="style_image">Style Image:</label>
     <input type="file" name="style_image" id="style_image" required><br><br>
+    <label for="steps">Iterations:</label>
+    <input type="number" name="steps" id="steps" value="1" min="1" required><br><br>
     <input type="button" value="Transfer Style" onclick="uploadImages()">
+
 </form>
 <dialog id="loading">
     <p>Please wait while we process your request...</p>
@@ -91,6 +94,13 @@
         document.getElementById('loading').showModal();
 
         const formData = new FormData(document.getElementById('uploadForm'));
+
+        if (formData.get('content_image').size === 0 || formData.get('style_image').size === 0) {
+            document.getElementById('loading').close();
+            alert('Please select both images');
+            return;
+        }
+
         await fetch('/transform', {
             method: 'POST',
             body: formData
@@ -99,12 +109,13 @@
             .then(data => {
                 document.getElementById('resultImage').src = data.image_path;
                 document.getElementById('resultImage').style.display = 'block';
+                document.getElementById('loading').close();
             })
             .catch(error => {
+                document.getElementById('loading').close();
                 console.error('Error:', error);
                 alert('Error processing your request');
             });
-        document.getElementById('loading').close();
     }
 </script>
 </body>
