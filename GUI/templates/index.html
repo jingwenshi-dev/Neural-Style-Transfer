@@ -87,11 +87,11 @@
 <br>
 <img id="resultImage" style="display:none;" alt="Result Image">
 <script>
-    function uploadImages() {
+    async function uploadImages() {
         document.getElementById('loading').showModal();
 
-        var formData = new FormData(document.getElementById('uploadForm'));
-        fetch('/transform', {
+        const formData = new FormData(document.getElementById('uploadForm'));
+        await fetch('/transform', {
             method: 'POST',
             body: formData
         })

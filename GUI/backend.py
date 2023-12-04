@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, send_from_directory
-import NST
+from NST import image_loader, start_NST
 import os
 from werkzeug.utils import secure_filename
 
@@ -22,6 +22,10 @@ def transform():
         style_file = request.files['style_image']
 
         if content_file and style_file:
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
+            if not os.path.exists(app.config['OUTPUT_FOLDER']):
+                os.makedirs(app.config['OUTPUT_FOLDER'])
             content_filename = secure_filename(content_file.filename)
             style_filename = secure_filename(style_file.filename)
             content_path = os.path.join(app.config['UPLOAD_FOLDER'], content_filename)
@@ -30,8 +34,8 @@ def transform():
             style_file.save(style_path)
 
             # Perform Neural Style Transfer
-            style_image, content_image, input_image = NST.image_loader(style_path, content_path)
-            output = NST.start_NST(optimizer="lbfgs",
+            style_image, content_image, input_image = image_loader(style_path, content_path)
+            output = start_NST(optimizer="lbfgs",
                                    content_img=content_image,
                                    style_img=style_image,
                                    input_img=input_image,
