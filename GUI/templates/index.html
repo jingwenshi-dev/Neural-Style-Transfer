@@ -104,7 +104,9 @@
             document.getElementById('loadingBarContainer').style.display = 'block';
 
             let progress = 0;
-            const intervalTime = 30; // Reduce this time to speed up the progress bar
+            const steps = parseInt(document.getElementById('steps').value); // Get the number of iterations from user input
+            const intervalTime = 3 * steps;
+            // const intervalTime = 30; // Reduce this time to speed up the progress bar
             const increment = 1; // Increase this value to make the progress bar move faster
 
             const interval = setInterval(() => {
