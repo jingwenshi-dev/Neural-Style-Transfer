@@ -42,3 +42,7 @@ def transform():
                                              'output_' + content_filename)
             save_image(output, output_image_path)
             return {'image_path': output_image_path}
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
