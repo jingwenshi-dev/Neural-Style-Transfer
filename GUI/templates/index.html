@@ -48,21 +48,19 @@
         }
 
         #loadingBarContainer {
-            display: none;
             width: 100%;
             background-color: #ddd;
             border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            display: none;
         }
 
         #loadingBar {
-            height: 30px;
+            height: 20px;
             width: 0%;
             background-color: #4CAF50;
-            text-align: center;
-            line-height: 30px;
-            color: white;
+            border-radius: 4px;
         }
 
         img#resultImage {
@@ -70,55 +68,84 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        dialog {
+            border: none;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-<h1>Upload Images for Style Transfer</h1>
-<form id="uploadForm" enctype="multipart/form-data">
-    <label for="content_image">Content Image:</label>
-    <input type="file" name="content_image" id="content_image" required><br><br>
-    <label for="style_image">Style Image:</label>
-    <input type="file" name="style_image" id="style_image" required><br><br>
-    <label for="steps">Iterations:</label>
-    <input type="number" name="steps" id="steps" value="1" min="1" required><br><br>
-    <label for="style_weight">Style Weight:</label>
-    <input type="number" name="style_weight" id="style_weight" value="100000" min="1" required><br><br>
-    <input type="button" value="Transfer Style" onclick="uploadImages()">
+    <h1>Upload Images for Style Transfer</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="content_image">Content Image:</label>
+        <input type="file" name="content_image" id="content_image" required><br><br>
+        <label for="style_image">Style Image:</label>
+        <input type="file" name="style_image" id="style_image" required><br><br>
+        <label for="steps">Iterations:</label>
+        <input type="number" name="steps" id="steps" value="1" min="1" required><br><br>
+        <label for="style_weight">Style Weight:</label>
+        <input type="number" name="style_weight" id="style_weight" value="100000" min="1" required><br><br>
+        <input type="button" value="Transfer Style" onclick="uploadImages()">
+    </form>
 
-</form>
-<dialog id="loading">
-    <p>Please wait while we process your request...</p>
-</dialog>
-<br>
-<img id="resultImage" style="display:none;" alt="Result Image">
-<script>
-    async function uploadImages() {
-        document.getElementById('loading').showModal();
+    <dialog id="loading">
+        <p>Please wait while we process your request...</p>
+        <div id="loadingBarContainer">
+            <div id="loadingBar"></div>
+        </div>
+    </dialog>
+    <br>
+    <img id="resultImage" style="display:none;" alt="Result Image">
 
-        const formData = new FormData(document.getElementById('uploadForm'));
+    <script>
+        async function uploadImages() {
+            document.getElementById('loading').showModal();
+            document.getElementById('loadingBarContainer').style.display = 'block';
 
-        if (formData.get('content_image').size === 0 || formData.get('style_image').size === 0) {
-            document.getElementById('loading').close();
-            alert('Please select both images');
-            return;
-        }
+            let progress = 0;
+            const intervalTime = 30; // Reduce this time to speed up the progress bar
+            const increment = 1; // Increase this value to make the progress bar move faster
 
-        await fetch('/transform', {
-            method: 'POST',
-            body: formData
-        })
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    progress += increment;
+                    updateProgressBar(Math.min(progress, 100));
+                }
+            }, intervalTime);
+
+            const formData = new FormData(document.getElementById('uploadForm'));
+
+            if (formData.get('content_image').size === 0 || formData.get('style_image').size === 0) {
+                document.getElementById('loading').close();
+                alert('Please select both images');
+                return;
+            }
+
+            await fetch('/transform', {
+                method: 'POST',
+                body: formData
+            })
             .then(response => response.json())
             .then(data => {
+                updateProgressBar(100);
                 document.getElementById('resultImage').src = data.image_path;
                 document.getElementById('resultImage').style.display = 'block';
-                document.getElementById('loading').close();
+                setTimeout(() => document.getElementById('loading').close(), 1000); // Close dialog after a short delay
             })
             .catch(error => {
                 document.getElementById('loading').close();
                 console.error('Error:', error);
                 alert('Error processing your request');
             });
-    }
-</script>
+        }
+
+        function updateProgressBar(percent) {
+            const progressBar = document.getElementById('loadingBar');
+            progressBar.style.width = percent + '%';
+        }
+    </script>
 </body>
 </html>
