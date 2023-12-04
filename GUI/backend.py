@@ -21,6 +21,7 @@ def transform():
         content_file = request.files['content_image']
         style_file = request.files['style_image']
         steps = request.form['steps']
+        style_weight = request.form['style_weight']
 
         if content_file and style_file:
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -43,7 +44,7 @@ def transform():
                                style_img=style_image,
                                input_img=input_image,
                                num_steps=steps,
-                               style_weight=1000000)
+                               style_weight=style_weight)
 
             output_image_path = os.path.join(app.config['OUTPUT_FOLDER'], 'output_' + content_filename)
             print(type(output))
