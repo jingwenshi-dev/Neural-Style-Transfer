@@ -131,7 +131,7 @@
             .then(response => response.json())
             .then(data => {
                 updateProgressBar(100);
-                document.getElementById('resultImage').src = data.image_path;
+                document.getElementById('resultImage').src = `${data.image_path}?${new Date().getTime()}`;
                 document.getElementById('resultImage').style.display = 'block';
                 setTimeout(() => document.getElementById('loading').close(), 1000); // Close dialog after a short delay
             })
