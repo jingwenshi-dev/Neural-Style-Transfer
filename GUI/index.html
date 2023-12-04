@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Neural Style Transfer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        #uploadForm {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #uploadForm label {
+            margin-right: 10px;
+        }
+
+        #uploadForm input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        #uploadForm input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        #uploadForm input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        #loadingBarContainer {
+            display: none;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #loadingBar {
+            height: 30px;
+            width: 0%;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+
+        img#resultImage {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+<h1>Upload Images for Style Transfer</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="content_image">Content Image:</label>
+    <input type="file" name="content_image" id="content_image" required><br><br>
+    <label for="style_image">Style Image:</label>
+    <input type="file" name="style_image" id="style_image" required><br><br>
+    <input type="button" value="Transfer Style" onclick="uploadImages()">
+</form>
+<dialog id="loading">
+    <p>Please wait while we process your request...</p>
+</dialog>
+<br>
+<img id="resultImage" style="display:none;" alt="Result Image">
+<script>
+    function uploadImages() {
+        document.getElementById('loading').showModal();
+
+        var formData = new FormData(document.getElementById('uploadForm'));
+        fetch('/transform', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('resultImage').src = data.image_path;
+                document.getElementById('resultImage').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error processing your request');
+            });
+        document.getElementById('loading').close();
+    }
+</script>
+</body>
+</html>
