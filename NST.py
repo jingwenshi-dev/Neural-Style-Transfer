@@ -102,8 +102,8 @@ class Normalization(nn.Module):
         cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406])
         cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225])
 
-        self.mean = torch.tensor(cnn_normalization_mean).view(-1, 1, 1)
-        self.std = torch.tensor(cnn_normalization_std).view(-1, 1, 1)
+        self.mean = cnn_normalization_mean.clone().view(-1, 1, 1).to(device, torch.float)
+        self.std = cnn_normalization_std.clone().view(-1, 1, 1).to(device, torch.float)
 
     def forward(self, img):
         return (img - self.mean) / self.std
