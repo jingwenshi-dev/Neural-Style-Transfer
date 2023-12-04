@@ -20,17 +20,21 @@ Neural Style Transfer (NST) is an algorithm that alters digital images or videos
 For a clear sense of how does the code run, see [NST.ipynb](NST.ipynb) for the Jupyter Notebook.
 
 To use NST, follow the following steps:
-#### Usage
-0. **Setup**
+#### Usage - Run a Web App
+```bash
+python GUI/app.py
+```
+#### Usage - Run Code on Your Own
+1. **Setup**
     ```python
     from NST import image_loader, start_NST, image_display
     ```
-1. **Load Images:**
+2. **Load Images:**
     ```python
     style_img, content_img, input_img = image_loader(style_img_path, content_img_path)
     ```
 
-2. **Run NST:**
+3. **Run NST:**
     ```python
     output = start_NST(optimizer="lbfgs",
                        content_img=content_img,
@@ -39,7 +43,7 @@ To use NST, follow the following steps:
                        style_weight=1000000)
     ```
 
-3. **Display & Save Output:**
+4. **Display & Save Output:**
     ```python
     import matplotlib.pyplot as plt
     
