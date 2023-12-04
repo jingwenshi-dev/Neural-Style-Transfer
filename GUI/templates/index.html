@@ -48,7 +48,6 @@
         }
 
         #loadingBarContainer {
-            width: 100%;
             background-color: #ddd;
             border-radius: 4px;
             text-align: center;
@@ -104,7 +103,8 @@
             document.getElementById('loadingBarContainer').style.display = 'block';
 
             let progress = 0;
-            const intervalTime = 30; // Reduce this time to speed up the progress bar
+            const steps = parseInt(document.getElementById('steps').value); // Get the number of iterations from user input
+            const intervalTime = 3 * steps;
             const increment = 1; // Increase this value to make the progress bar move faster
 
             const interval = setInterval(() => {
@@ -131,7 +131,7 @@
             .then(response => response.json())
             .then(data => {
                 updateProgressBar(100);
-                document.getElementById('resultImage').src = data.image_path;
+                document.getElementById('resultImage').src = `${data.image_path}?${new Date().getTime()}`;
                 document.getElementById('resultImage').style.display = 'block';
                 setTimeout(() => document.getElementById('loading').close(), 1000); // Close dialog after a short delay
             })
