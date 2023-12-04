@@ -20,8 +20,8 @@ def transform():
     if request.method == 'POST':
         content_file = request.files['content_image']
         style_file = request.files['style_image']
-        steps = request.form['steps']
-        style_weight = request.form['style_weight']
+        steps = int(request.form['steps'])
+        style_weight = int(request.form['style_weight'])
 
         if content_file and style_file:
             if not os.path.exists(app.config['UPLOAD_FOLDER']):

@@ -102,7 +102,19 @@
         async function uploadImages() {
             document.getElementById('loading').showModal();
             document.getElementById('loadingBarContainer').style.display = 'block';
-            updateProgressBar(0);
+
+            let progress = 0;
+            const intervalTime = 30; // Reduce this time to speed up the progress bar
+            const increment = 1; // Increase this value to make the progress bar move faster
+
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    progress += increment;
+                    updateProgressBar(Math.min(progress, 100));
+                }
+            }, intervalTime);
 
             const formData = new FormData(document.getElementById('uploadForm'));
 
