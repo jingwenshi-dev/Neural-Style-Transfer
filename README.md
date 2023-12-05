@@ -4,6 +4,9 @@
 
 Neural Style Transfer (NST) is an algorithm that alters digital images or videos, enabling them to mimic the appearance or visual style of another image. Leveraging deep neural networks, these algorithms transform images. NST finds various applications in creating artificial artwork from photos, such as applying the style of renowned paintings to user-provided images. Artists and designers globally use this technique to craft innovative artwork inspired by diverse styles.
 
+#### Documentation
+For a detailed of the projects documentation, see [Documentation.pdf](Documentation.pdf).
+
 #### Example Images
 - **Style Image:** 
     
